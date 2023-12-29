@@ -1,5 +1,8 @@
 package com.epam.mjc;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class MethodParser {
 
     /**
@@ -20,6 +23,30 @@ public class MethodParser {
      * @return {@link MethodSignature} object filled with parsed values from source string
      */
     public MethodSignature parseFunction(String signatureString) {
-        throw new UnsupportedOperationException("You should implement this method.");
+        MethodSignature methodSignature;
+        System.out.println(signatureString);
+        String mofifiers="publicprivateprotected";
+        List<String>list= Arrays.asList(signatureString.split(" "));
+        System.out.println(list);
+        if(!mofifiers.contains(list.get(0))){
+            methodSignature=new MethodSignature(list.get(1).trim().substring(0,list.get(1).indexOf("(")));
+            methodSignature.setMethodName(list.get(1).trim().substring(0,list.get(1).indexOf("(")));
+            methodSignature.setReturnType(list.get(0));
+            methodSignature.setAccessModifier(null);
+            return methodSignature;
+        }
+        else{
+            methodSignature=new MethodSignature(list.get(2).trim().substring(0,list.get(2).indexOf("(")));
+            methodSignature.setAccessModifier(list.get(0));
+            methodSignature.setReturnType(list.get(1));
+            methodSignature.setMethodName(list.get(2).trim().substring(0,list.get(2).indexOf("(")));
+            return methodSignature;
+
+        }
+    }
+    public static void main(String args[]){
+        MethodParser m=new MethodParser();
+        m.parseFunction("String repeat(String value, int times)");
+
     }
 }
